@@ -15,7 +15,7 @@ function changeHitButton(str) {
 function calculateScore(card) {
     let score = 0;
     let aceCount = 0;
-    console.log("cards in calcutae score:" +card)
+    console.log("cards in calculate score:" +card)
 
    
         let value = card[0]; 
