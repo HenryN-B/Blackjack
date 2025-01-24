@@ -1,0 +1,59 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<div class = "play-background">
+    <div class = "text-stuff">
+        <div class = "scores-box">
+            <div>
+                <p>Scores</p>
+            </div>
+            <div class = "scores">
+                <div class = "score" id = "player-score"></div>
+                <div class = "score" id = "dealer-score">
+                    ?
+                </div>
+            </div>
+        </div>
+
+        <div class = "actions">
+            <div class = "actions-top" id = "actions-top">
+                <div class="hit-stay" id = "hit-stay">
+                        <button class="hit-stay-button" id="hit-button">
+                        <p>Hit</p>
+                        </button>
+                        <button class="hit-stay-button" id="stay-button">
+                        <p>Stay</p>
+                        </button>
+                </div>
+            </div>
+            <div class = "reset" >
+                <button class = "reset-button" id = "reset">
+                    <p>Reset</p>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="game-board" id="game-board">
+
+        <div class="dealer-side">
+                <div class="hand" id="dealer-hand">
+                </div>
+        </div>
+        
+        <div class="player-side">
+                <div class="hand" id="player-hand">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const game_data = {{ data | tojson | safe }}; 
+    console.log("Game Data:", game_data);
+</script>
+
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+{% endblock %}

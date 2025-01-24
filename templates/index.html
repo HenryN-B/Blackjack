@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h1>Blackjack Game</h1>
+<p>Enter name to add a player</p>
+<div>
+    <h3>Players:</h3>
+    {% for player in players %}
+    <div class="box">
+      <p class="name">{{player.name}}</p>
+    </div>
+    {% endfor%}
+    </div>
+    <form action="/add_player" method="POST" id="add-player-form">
+        <input class="button" type="text" placeholder="Name" name="name">
+        <button type="submit">Add Player</button>
+    </form>
+    <form action="/start_game" method="POST">
+        <button>Start Game</button>
+    </form>
+</div>
+{% endblock %}

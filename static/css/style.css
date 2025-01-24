@@ -1,0 +1,217 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0; 
+    height: 100%;
+    overflow: hidden
+}
+
+.content {
+    width: 100%;
+    height: 100vh;
+    margin: 0, 0, 0, 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #4c3f42;
+}
+
+.play-background {
+    width: 100%;
+    height: 100vh;
+    margin: 0, 0, 0, 0;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    background-color: rgb(0, 151, 0);
+
+}
+
+.text-stuff {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly;
+    align-items: center;
+    background-color: rgb(0, 151, 0);
+}
+
+.scores-box {
+    width: 100%;
+    height: 100px;
+    border: 2px solid #20138a;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.scores {
+    width: 100%;
+    height: 100px;
+    border: 2px solid #5d4dd3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.actions {
+    height: 100px;
+    width: 100%;
+    border: 2px solid #20138a;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+}
+
+.reset {
+    width: 25%;
+}
+
+.reset-button {
+    text-align: center;
+    border-radius: 10px;
+    color: #04ac99;
+    background-color: #004d40;
+    border: none;
+    font-size: 14px; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.actions-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+
+}
+.hit-stay {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.hit-stay-hidden {
+    display: none;
+}
+
+.hit-stay-button {
+    text-align: center;
+    border-radius: 10px;
+    width: 25%; 
+    color: #04ac99;
+    background-color: #004d40;
+    border: none;
+    font-size: 14px; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+}
+
+.hit-stay-button:hover {
+    background-color: #00695c; 
+    transform: scale(1.05); 
+}
+
+.hit-stay-button:active {
+    background-color: #004d40; 
+    transform: scale(0.95); 
+}
+
+.game-board {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    background-color: rgb(0, 151, 0);
+}
+
+.dealer-side {
+    width: 100%;
+    height: 300px;
+    border: 2px solid #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.player-side {
+    width: 100%;
+    height: 300px;
+    border: 2px solid #20138a;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+} 
+
+
+
+.hand {
+    width: 100%;
+    height: 200px;
+    border: 2px solid #8328a7;
+    background-color: #a72828;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden-card {
+    visibility: hidden;
+}
+
+.card {
+    margin: 20px;
+}
+
+.bet-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.current-money {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bet-form {
+    margin-top: 20px;
+}
+
+.bet-input {
+    padding: 10px;
+    font-size: 16px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.bet-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.bet-button:hover {
+    background-color: #0056b3;
+}
