@@ -62,9 +62,9 @@ def bets():
         except:
             return redirect("/bets")
         if bet == "":
-            print("null name")
+            print("null bet")
             return redirect("/bets")
-        if bet > game.players[1].money or bet == 0:
+        if bet > game.players[1].money or bet <= 0:
             return redirect("/bets")
         bets.append(bet)
         game.start_game(bets)
