@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect
 from game_logic import Game, Player
+import sqlite3
 
 app = Flask(__name__)
 app.secret_key = "test"
@@ -120,4 +121,4 @@ def dealerData():
 
 
 if __name__ == "__main__":
-    app.run(host = "0.0.0.0", debug=True)
+    app.run(host='0.0.0.0', port=5000)
