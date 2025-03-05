@@ -43,10 +43,8 @@ def play():
 def add_player():
     name = request.form["name"].strip()
     if name == "":
-        print("null name")
         return redirect("/")
     game.add_player(name)
-    print(game.players)
     return redirect("/")
 #
 
@@ -56,14 +54,12 @@ def bets():
         return redirect("/")
     if request.method == "POST":
         bets = []
-        print("In bets")
         bet = request.form["bet"].strip()
         try:
             bet = float(bet)
         except:
             return redirect("/bets")
         if bet == "":
-            print("null bet")
             return redirect("/bets")
         if bet > game.players[1].money or bet <= 0:
             return redirect("/bets")
@@ -87,8 +83,6 @@ def hit():
         return jsonify("bust")
     game.hit(game.players[1])
     card = game.players[1].hand[len(game.players[1].hand)-1]
-    print(game.players[1].hand)
-    print(game.players[1].score)
     data = {"card": card,
             "bust": False,
             "score": game.players[1].score
@@ -99,10 +93,7 @@ def hit():
 
 @app.route("/stay")
 def stay():
-    print("staying")
     game.stay(game.players[1])
-    print(game.players[1].score)
-    print(game.players[0].hand[2:])
     return jsonify(game.players[0].hand[2:])
 
 @app.route("/reset")

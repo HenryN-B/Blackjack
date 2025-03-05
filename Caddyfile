@@ -1,7 +1,3 @@
-www.henrynortonbower.com {
-    redir https://henrynortonbower.com{uri}
-}
-
 henrynortonbower.com {
     reverse_proxy localhost:8000
 }
