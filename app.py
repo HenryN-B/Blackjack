@@ -84,17 +84,18 @@ def start_game():
     
 @app.route("/hit")
 def hit():
-    if game.players[1].stay:
+    name = session["name"]
+    if names[name].players[1].stay:
         return jsonify("stay")
-    if game.players[1].bust:
+    if names[name].players[1].bust:
         return jsonify("bust")
-    game.hit(game.players[1])
-    card = game.players[1].hand[len(game.players[1].hand)-1]
+    names[name].hit(names[name].players[1])
+    card = names[name].players[1].hand[len(names[name].players[1].hand)-1]
     data = {"card": card,
             "bust": False,
-            "score": game.players[1].score
+            "score": names[name].players[1].score
             }
-    if game.players[1].bust:
+    if names[name].players[1].bust:
         data["bust"]= True
     return jsonify(data)
 
