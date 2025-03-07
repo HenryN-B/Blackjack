@@ -1,4 +1,5 @@
 import random
+import sqlite3
 
 class Player:
     def __init__(self,name):
@@ -203,11 +204,3 @@ def simulate():
             print("Dealer Busted!")
         print(game.players[0].hand, "\n Dealer score:", game.players[0].score)
         game.reset()
-    
-    
-    
-    
-
-if __name__ == "__main__":
-    simulate()
-    

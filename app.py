@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, session
 from game_logic import Game, Player
 import sqlite3
 
@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.secret_key = "test"
 
 game = Game()
+names = {}
 
 @app.route("/", methods=["GET"])
 def index():  
@@ -13,18 +14,19 @@ def index():
 
 @app.route("/play", methods=["GET"])
 def play():
-    if len(game.players) == 1:
+    name = session["name"]
+    if len(names[name].players) == 1:
         return redirect("/")
-    player_cards = game.players[1].hand
-    dealer_cards = game.players[0].hand
-    dealer_turn = not(game.in_game)
-    stay = game.players[1].stay
-    deal = game.deal
-    dealer_blackjack = game.players[0].blackjack
-    player_blackjack = game.players[1].blackjack
-    player_score = game.players[1].score
-    dealer_score = game.players[0].score
-    new_player_card = game.players[1].hand[len(game.players[1].hand)-1]
+    player_cards = names[name].players[1].hand
+    dealer_cards = names[name].players[0].hand
+    dealer_turn = not(names[name].in_game)
+    stay = names[name].players[1].stay
+    deal = names[name].deal
+    dealer_blackjack = names[name].players[0].blackjack
+    player_blackjack = names[name].players[1].blackjack
+    player_score = names[name].players[1].score
+    dealer_score = names[name].players[0].score
+    new_player_card = names[name].players[1].hand[len(names[name].players[1].hand)-1]
     game_data = {
         "playerCards": player_cards,
         "dealerCards": dealer_cards,
@@ -37,20 +39,25 @@ def play():
         "player_score": player_score,
         "dealer_score": dealer_score
     }
-    return render_template("play.html", data = game_data, player = game.players[1])
+    return render_template("play.html", data = game_data, player = names[name].players[1])
 
 @app.route("/add_player", methods=["POST"])
 def add_player():
+    game = Game()
     name = request.form["name"].strip()
     if name == "":
         return redirect("/")
     game.add_player(name)
-    return redirect("/")
+    session["name"] = name
+    names[name] = game
+    return redirect("/bets")
 #
 
 @app.route("/bets", methods = ["GET","POST"])
 def bets():
-    if len(game.players) == 1:
+    name = session["name"]
+    if len(names[name].players) == 1:
+        print("too little players")
         return redirect("/")
     if request.method == "POST":
         bets = []
@@ -61,12 +68,12 @@ def bets():
             return redirect("/bets")
         if bet == "":
             return redirect("/bets")
-        if bet > game.players[1].money or bet <= 0:
+        if bet > names[name].players[1].money or bet <= 0:
             return redirect("/bets")
         bets.append(bet)
-        game.start_game(bets)
+        names[name].start_game(bets)
         return redirect("/play")
-    return render_template("bets.html",money = game.players[1].money)
+    return render_template("bets.html",money = names[name].players[1].money)
 
 @app.route("/start_game", methods = ["POST"])
 def start_game():
@@ -93,19 +100,22 @@ def hit():
 
 @app.route("/stay")
 def stay():
-    game.stay(game.players[1])
-    return jsonify(game.players[0].hand[2:])
+    name = session["name"]
+    names[name].stay(names[name].players[1])
+    return jsonify(names[name].players[0].hand[2:])
 
 @app.route("/reset")
 def reset():
-    game.reset()
+    name = session["name"]
+    names[name].reset()
     return redirect("/bets")
 
 @app.route("/dealerData")
 def dealerData():
+    name = session["name"]
     data = {
-        "dealerCards": game.players[0].hand,
-        "dealerScore": game.players[0].score
+        "dealerCards": names[name].players[0].hand,
+        "dealerScore": names[name].players[0].score
     }
     return jsonify(data)
 

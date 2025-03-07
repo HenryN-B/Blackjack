@@ -1,10 +1,12 @@
 {% extends 'base.html' %} 
 {% block content %}
 <div class="bet-container">
+    <h1 class="bet-title">Place Your Bet</h1>
     <p class="current-money">Current Money: {{money}}</p>
 
     <form action="/bets" method="POST" class="bet-form">
-        <input type="text" placeholder="Enter your bet" id="bet" name="bet" class="bet-input">
+        <input type="text" placeholder="Enter your bet (numbers only)" id="bet" name="bet" class="bet-input">
+        <small class="bet-error" id="bet-error"></small>
         <button type="submit" class="bet-button">
             Place Bet
         </button>
