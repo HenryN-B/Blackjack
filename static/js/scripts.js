@@ -145,9 +145,10 @@ async function last_dealer_cards(cards) {
 
     function flip(card) {
         if(score > 21) {
-            for(card in cards) {
+            for(const card in cards) {
+                console.log("Ace in dealers cards getting rid of 10 "+card[1])
                 if (card[1] == "A") {
-                    score - 10;
+                    score = score - 10;
                 }
             }
         }
@@ -230,6 +231,19 @@ document.getElementById('reset').addEventListener('click', async function (event
     
 });
 
+let disconnectTimeout;
+
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+        console.log("started timer")
+        disconnectTimeout = setTimeout(() => {
+            navigator.sendBeacon("/disconnect");
+        }, 10000); 
+    } else {
+        console.log("stopping")
+        clearTimeout(disconnectTimeout);
+    }
+});
 
 
 handleGameData();

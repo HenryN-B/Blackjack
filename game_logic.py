@@ -59,10 +59,6 @@ class Game:
                 self.update_score(player)
             self.deal_one(self.players[0])
             self.update_score(self.players[0])
-        # self.players[1].hand.append(["A","Clubs"])
-        # self.players[1].hand.append(["K","Clubs"])
-        # self.players[0].hand.append(["A","Clubs"])
-        # self.players[0].hand.append(["K","Clubs"])
         self.update_score(self.players[0])
         for player in self.players:
             if player.score == 21:
@@ -92,7 +88,6 @@ class Game:
                     aces += 1
         
         while score > 21 and aces:
-            print("getting rid of ace -10")
             score -= 10
             aces -= 1
             
@@ -120,7 +115,6 @@ class Game:
         self.end_game()
     
     def end_game(self):
-        print("game done")
         self.in_game = False
         for player in self.players:
             if player.name == "Dealer":

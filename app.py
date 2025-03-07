@@ -15,6 +15,8 @@ def index():
 @app.route("/play", methods=["GET"])
 def play():
     name = session["name"]
+    if not name:
+        return redirect("/")
     if len(names[name].players) == 1:
         return redirect("/")
     player_cards = names[name].players[1].hand
@@ -48,16 +50,17 @@ def add_player():
     if name == "":
         return redirect("/")
     game.add_player(name)
+    if name not in names:
+        names[name] = game
     session["name"] = name
-    names[name] = game
     return redirect("/bets")
-#
 
 @app.route("/bets", methods = ["GET","POST"])
 def bets():
     name = session["name"]
+    if not name:
+        return redirect("/")
     if len(names[name].players) == 1:
-        print("too little players")
         return redirect("/")
     if request.method == "POST":
         bets = []
@@ -80,11 +83,12 @@ def start_game():
     game.reset()
     
     return redirect("/bets")
-
     
 @app.route("/hit")
 def hit():
     name = session["name"]
+    if not name:
+        return redirect("/")
     if names[name].players[1].stay:
         return jsonify("stay")
     if names[name].players[1].bust:
@@ -102,12 +106,16 @@ def hit():
 @app.route("/stay")
 def stay():
     name = session["name"]
+    if not name:
+        return redirect("/")
     names[name].stay(names[name].players[1])
     return jsonify(names[name].players[0].hand[2:])
 
 @app.route("/reset")
 def reset():
     name = session["name"]
+    if not name:
+        return redirect("/")
     names[name].reset()
     return redirect("/bets")
 
@@ -119,6 +127,18 @@ def dealerData():
         "dealerScore": names[name].players[0].score
     }
     return jsonify(data)
+
+@app.route("/disconnect", methods=["POST"])
+def disconnect():
+    if "name" in session:
+        name = session["name"]
+        print("Powering down")
+        print(names)
+        if name in names:
+            session.clear
+            del names[name] 
+    return '', 204 
+    
 
 
 
