@@ -1,4 +1,5 @@
 const delay = ms => new Promise(res => setTimeout(res, ms));
+let isNavigatingAway = false;
 
 function changeHitButton(str) {
     const container = document.getElementById("actions-top");
@@ -227,21 +228,15 @@ document.getElementById('stay-button').addEventListener('click', async function(
 
 document.getElementById('reset').addEventListener('click', async function (event) {
     event.preventDefault();
+    isNavigatingAway = true;
     window.location.href = '/reset';
     
 });
 
-let disconnectTimeout;
 
-document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "hidden") {
-        console.log("started timer")
-        disconnectTimeout = setTimeout(() => {
-            navigator.sendBeacon("/disconnect");
-        }, 10000); 
-    } else {
-        console.log("stopping")
-        clearTimeout(disconnectTimeout);
+window.addEventListener('beforeunload', function(event) {
+    if (!isNavigatingAway) {
+        navigator.sendBeacon('/disconnect', {});
     }
 });
 

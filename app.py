@@ -47,7 +47,7 @@ def play():
 def add_player():
     game = Game()
     name = request.form["name"].strip()
-    if name == "":
+    if name == "" or name == "Null":
         return redirect("/")
     game.add_player(name)
     if name not in names:
@@ -58,7 +58,7 @@ def add_player():
 @app.route("/bets", methods = ["GET","POST"])
 def bets():
     name = session["name"]
-    if not name:
+    if not name or name == "Null":
         return redirect("/")
     if len(names[name].players) == 1:
         return redirect("/")
@@ -106,7 +106,7 @@ def hit():
 @app.route("/stay")
 def stay():
     name = session["name"]
-    if not name:
+    if not name or name == "Null":
         return redirect("/")
     names[name].stay(names[name].players[1])
     return jsonify(names[name].players[0].hand[2:])
@@ -114,7 +114,7 @@ def stay():
 @app.route("/reset")
 def reset():
     name = session["name"]
-    if not name:
+    if not name or name == "Null":
         return redirect("/")
     names[name].reset()
     return redirect("/bets")
@@ -132,11 +132,10 @@ def dealerData():
 def disconnect():
     if "name" in session:
         name = session["name"]
-        print("Powering down")
-        print(names)
         if name in names:
-            session.clear
             del names[name] 
+            session["name"] = "Null"
+        
     return '', 204 
     
 

@@ -7,9 +7,11 @@
     <form action="/bets" method="POST" class="bet-form">
         <input type="text" placeholder="Enter your bet (numbers only)" id="bet" name="bet" class="bet-input">
         <small class="bet-error" id="bet-error"></small>
-        <button type="submit" class="bet-button">
+        <button type="submit" class="bet-button" id = "bet-button">
             Place Bet
         </button>
     </form>
 </div>
+
+<script src="{{ url_for('static', filename='js/bets_scripts.js') }}"></script>
 {% endblock %}
