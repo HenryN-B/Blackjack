@@ -144,6 +144,13 @@ async function last_dealer_cards(cards) {
     updateScore(score,"dealer")
 
     function flip(card) {
+        if(score > 21) {
+            for(card in cards) {
+                if (card[1] == "A") {
+                    score - 10;
+                }
+            }
+        }
         const container = document.getElementById("dealer-hand");
         const img = document.createElement("img");
         const cardString = `card${card[1]}${card[0]}.png`;
