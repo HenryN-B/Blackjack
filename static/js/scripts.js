@@ -16,11 +16,11 @@ function changeHitButton(str) {
 function calculateScore(card) {
     let score = 0;
     let aceCount = 0;
-    console.log("cards in calculate score:" +card)
+    //console.log("cards in calculate score:" +card)
 
    
         let value = card[0]; 
-        console.log("value in calculate score:" + value)
+        //console.log("value in calculate score:" + value)
         if (value === "K" || value === "Q" || value === "J") {
             score += 10; 
         } else if (value === "A") {
@@ -41,7 +41,7 @@ function calculateScore(card) {
 }
 
 function updateScore(score,player) {
-    console.log(player + " score: "+score)
+    //console.log(player + " score: "+score)
     let target = player+"-score"
     const container = document.getElementById(target)
     container.innerHTML = score
@@ -83,7 +83,7 @@ async function handleGameData() {
             const container = document.getElementById(whoHand);
             container.innerHTML = "";
             cards.forEach((card, index) => {
-                console.log(whoHand, card)
+                //console.log(whoHand, card)
                 const img = document.createElement("img");
                 const cardString = (whoHand === "dealer-hand" && index === 0 && !(game_data.stay)) ? "card_back.png" : `card${card[1]}${card[0]}.png`;
                 img.src = `static/images/${cardString}`;
@@ -105,10 +105,10 @@ async function handleGameData() {
         } else if(game_data.bust) {
             changeHitButton("busted!")
         }
-        console.log("Not deal");
+        //console.log("Not deal");
         
     }
-    console.log("Done with handling");
+    //console.log("Done with handling");
 
 }
 
@@ -118,7 +118,7 @@ function dealCards(cards, whoHand) {
     container.innerHTML = ""; // Clear existing cards
 
     cards.forEach((card, index) => {
-        console.log(whoHand, card)
+        //console.log(whoHand, card)
         const img = document.createElement("img");
         const cardString = (whoHand === "dealer-hand" && index === 0) ? "card_back.png" : `card${card[1]}${card[0]}.png`;
         img.src = `static/images/${cardString}`;
@@ -127,15 +127,15 @@ function dealCards(cards, whoHand) {
         img.classList.add("hidden-card")
         container.appendChild(img);
     });
-    console.log("done dealing")
+    //console.log("done dealing")
 }
 
 async function last_dealer_cards(cards) {
     
-    console.log("new dealers cards", cards)
+    //console.log("new dealers cards", cards)
     var score = game_data.dealer_score
 
-    console.log("dealer score in last_dealer_cards:" + score)
+    //console.log("dealer score in last_dealer_cards:" + score)
 
     var first_card = document.getElementsByClassName("card")[0]
     var card = game_data.dealerCards[0]
@@ -145,14 +145,6 @@ async function last_dealer_cards(cards) {
     updateScore(score,"dealer")
 
     function flip(card) {
-        if(score > 21) {
-            for(const card in cards) {
-                console.log("Ace in dealers cards getting rid of 10 "+card[1])
-                if (card[1] == "A") {
-                    score = score - 10;
-                }
-            }
-        }
         const container = document.getElementById("dealer-hand");
         const img = document.createElement("img");
         const cardString = `card${card[1]}${card[0]}.png`;
@@ -161,12 +153,15 @@ async function last_dealer_cards(cards) {
         img.classList.add("card");
         container.appendChild(img);
         score += calculateScore(card)
-        console.log("Updated dealer score:" + score)
+        if(score > 21 && card[1] == "A") {
+            score -=10;
+        }
+        //console.log("Updated dealer score:" + score)
         updateScore(score,"dealer")
 }
     if (cards != "null") {
         for (let i = 0; i < cards.length; i++) {
-            console.log(cards[i]);
+            //console.log(cards[i]);
             setTimeout(() => flip(cards[i]), 500*(i+1));
         }
     }
@@ -174,7 +169,7 @@ async function last_dealer_cards(cards) {
 
 async function addCard(card, whoHand) {
     try {
-        console.log("adding card", card)
+        //console.log("adding card", card)
         const cardString = `card${card[1]}${card[0]}.png`;
         const img = document.createElement("img");
         img.src = `static/images/${cardString}`;
@@ -185,7 +180,7 @@ async function addCard(card, whoHand) {
         playerHandContainer.appendChild(img);
 
     } catch (error) {
-        console.error("Error adding new card:", error);
+        //console.error("Error adding new card:", error);
     }
 }
 
@@ -194,20 +189,20 @@ document.getElementById('hit-button').addEventListener('click', async function(e
     try {
         const response = await fetch('/hit');
         const data = await response.json();
-        console.log(data)
+        //console.log(data)
         if(data.bust == true) {
             changeHitButton("busted!");
             addCard(data.card);
             updateScore(data.score,"player")
         } else {
-            console.log('Hit response:', data.card);
-            console.log
+            //console.log('Hit response:', data.card);
+            //console.log
             addCard(data.card);
             game_data.player_score += data.card[0]
             updateScore(data.score,"player")
         }
     } catch (error) {
-        console.error('Error on hit:', error);
+        //console.error('Error on hit:', error);
     }
 });
 
@@ -217,12 +212,12 @@ document.getElementById('stay-button').addEventListener('click', async function(
         const response = await fetch('stay');
         const data = await response.json();
         changeHitButton("staying!");
-        console.log(data);
+        //console.log(data);
         last_dealer_cards(data);
 
 
     } catch (error) {
-        console.error('Error on stay:', error);
+        //console.error('Error on stay:', error);
     }
 });
 
