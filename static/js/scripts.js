@@ -1,7 +1,7 @@
 const delay = ms => new Promise(res => setTimeout(res, ms));
 let isNavigatingAway = false;
 let hit_cool_down = true;
-console.log("Updated!")
+console.log("Updated 0.0.3")
 
 function changeHitButton(str) {
     const container = document.getElementById("actions-top");
@@ -142,7 +142,6 @@ async function last_dealer_cards(cards) {
     } else if(cards[0][1] == "A" && cards[1][1] == "A") {
         aces+=1;
     }
-    console.log(aces);
 
     //console.log("dealer score in last_dealer_cards:" + score)
 
@@ -163,16 +162,13 @@ async function last_dealer_cards(cards) {
         container.appendChild(img);
         score += calculateScore(card)
         //console.log("Updated dealer score:" + score)
-        console.log(card)
         if(card[0] == "A") {
-            console.log("adding ace")
             aces +=1;
         }
         if(score > 21 && aces >= 1) {
             score -= 10;
             aces-=1;
         }
-        console.log(aces);
         updateScore(score,"dealer")
     }
     if (cards != "null") {
@@ -251,12 +247,12 @@ document.getElementById('reset').addEventListener('click', async function (event
     
 });
 
-
-window.addEventListener('beforeunload', function(event) {
+window.addEventListener('unload', function() {
     if (!isNavigatingAway) {
         navigator.sendBeacon('/disconnect', {});
     }
 });
+
 
 
 handleGameData();

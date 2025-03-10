@@ -64,7 +64,7 @@ def add_player():
 
 @app.route("/bets", methods = ["GET","POST"])
 def bets():
-    name = session["name"]
+    name = session.get("name")
     if not name or name == "Null":
         return redirect("/")
     if len(names[name].players) == 1:
@@ -83,7 +83,7 @@ def bets():
         bets.append(bet)
         names[name].start_game(bets)
         return redirect("/play")
-    return render_template("bets.html",money = names[name].players[1].money)
+    return render_template("bets.html",money = names[name].players[1].money, in_game = names[name].in_game)
 
 @app.route("/start_game", methods = ["POST"])
 def start_game():
@@ -93,7 +93,7 @@ def start_game():
     
 @app.route("/hit")
 def hit():
-    name = session["name"]
+    name = session.get("name")
     if not name:
         return redirect("/")
     if names[name].players[1].stay:
@@ -112,7 +112,7 @@ def hit():
 
 @app.route("/stay")
 def stay():
-    name = session["name"]
+    name = session.get("name")
     if not name or name == "Null":
         return redirect("/")
     names[name].stay(names[name].players[1])
@@ -120,7 +120,7 @@ def stay():
 
 @app.route("/reset")
 def reset():
-    name = session["name"]
+    name = session.get("name")
     if not name or name == "Null":
         return redirect("/")
     names[name].reset()
@@ -128,7 +128,7 @@ def reset():
 
 @app.route("/dealerData")
 def dealerData():
-    name = session["name"]
+    name = session.get("name")
     data = {
         "dealerCards": names[name].players[0].hand,
         "dealerScore": names[name].players[0].score
@@ -138,12 +138,11 @@ def dealerData():
 @app.route("/disconnect", methods=["POST"])
 def disconnect():
     if "name" in session:
-        name = session["name"]
+        name = session.get("name")
         if name in names:
-            del names[name] 
-            session["name"] = "Null"
-        
-    return '', 204 
+            del names[name]  
+        session.pop("name", None) 
+    return '', 204
     
 
 

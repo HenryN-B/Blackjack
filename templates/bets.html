@@ -13,5 +13,9 @@
     </form>
 </div>
 
+<script>
+    const in_game = {{ in_game | tojson | safe }}; 
+</script>
+
 <script src="{{ url_for('static', filename='js/bets_scripts.js') }}"></script>
 {% endblock %}
