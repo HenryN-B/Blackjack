@@ -1,5 +1,6 @@
 const delay = ms => new Promise(res => setTimeout(res, ms));
 let isNavigatingAway = false;
+let hit_cool_down = true;
 
 function changeHitButton(str) {
     const container = document.getElementById("actions-top");
@@ -62,6 +63,7 @@ async function handleGameData() {
         setTimeout(() => revealCard(3), 1000); 
         setTimeout(() => revealCard(1), 1500);
         await delay(2000);
+        hit_cool_down = false;
         updateScore(game_data.player_score,"player")
         if(game_data.dealer_blackjack) {
             changeHitButton("Dealer Blackjack!");
@@ -131,9 +133,15 @@ function dealCards(cards, whoHand) {
 }
 
 async function last_dealer_cards(cards) {
-    
+    let aces = 0;
     //console.log("new dealers cards", cards)
     var score = game_data.dealer_score
+    if(cards[0][1] == "A" ^ cards[1][1] =="A") {
+        aces+=1;
+    } else if(cards[0][1] == "A" && cards[1][1] == "A") {
+        aces+=1;
+    }
+    console.log(aces);
 
     //console.log("dealer score in last_dealer_cards:" + score)
 
@@ -153,16 +161,23 @@ async function last_dealer_cards(cards) {
         img.classList.add("card");
         container.appendChild(img);
         score += calculateScore(card)
-        if(score > 21 && card[1] == "A") {
-            score -=10;
-        }
         //console.log("Updated dealer score:" + score)
+        console.log(card)
+        if(card[0] == "A") {
+            console.log("adding ace")
+            aces +=1;
+        }
+        if(score > 21 && aces >= 1) {
+            score -= 10;
+            aces-=1;
+        }
+        console.log(aces);
         updateScore(score,"dealer")
-}
+    }
     if (cards != "null") {
-        for (let i = 0; i < cards.length; i++) {
+        for (let i = 2; i < cards.length; i++) {
             //console.log(cards[i]);
-            setTimeout(() => flip(cards[i]), 500*(i+1));
+            setTimeout(() => flip(cards[i]), 500*(i-1));
         }
     }
 }
@@ -187,19 +202,24 @@ async function addCard(card, whoHand) {
 document.getElementById('hit-button').addEventListener('click', async function(event) {
     event.preventDefault();
     try {
-        const response = await fetch('/hit');
-        const data = await response.json();
-        //console.log(data)
-        if(data.bust == true) {
-            changeHitButton("busted!");
-            addCard(data.card);
-            updateScore(data.score,"player")
-        } else {
-            //console.log('Hit response:', data.card);
-            //console.log
-            addCard(data.card);
-            game_data.player_score += data.card[0]
-            updateScore(data.score,"player")
+        if(hit_cool_down == false) {
+            const response = await fetch('/hit');
+            const data = await response.json();
+            //console.log(data)
+            if(data.bust == true) {
+                changeHitButton("busted!");
+                addCard(data.card);
+                updateScore(data.score,"player")
+                const response = await fetch('stay');
+                const bust_data = await response.json();
+                last_dealer_cards(bust_data);
+            } else {
+                //console.log('Hit response:', data.card);
+                //console.log
+                addCard(data.card);
+                game_data.player_score += data.card[0]
+                updateScore(data.score,"player")
+            }
         }
     } catch (error) {
         //console.error('Error on hit:', error);
@@ -209,11 +229,13 @@ document.getElementById('hit-button').addEventListener('click', async function(e
 document.getElementById('stay-button').addEventListener('click', async function(event) {
     event.preventDefault(); 
     try {
-        const response = await fetch('stay');
-        const data = await response.json();
-        changeHitButton("staying!");
-        //console.log(data);
-        last_dealer_cards(data);
+        if(hit_cool_down == false) {
+            const response = await fetch('stay');
+            const data = await response.json();
+            changeHitButton("staying!");
+            //console.log(data);
+            last_dealer_cards(data);
+        }
 
 
     } catch (error) {

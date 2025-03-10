@@ -109,11 +109,7 @@ def stay():
     if not name or name == "Null":
         return redirect("/")
     names[name].stay(names[name].players[1])
-    # data = {
-    #     "cards": names[name].players[0].hand,
-    #     dealer
-    # }
-    return jsonify(names[name].players[0].hand[2:])
+    return jsonify(names[name].players[0].hand)
 
 @app.route("/reset")
 def reset():

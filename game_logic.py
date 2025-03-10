@@ -69,7 +69,7 @@ class Game:
                     self.end_game()
                     break
                 player.blackjack = True
-                player.money += player.bet*2
+                player.money += player.bet*3
             
             
     def update_score(self, player):
@@ -122,7 +122,7 @@ class Game:
             if player.bust:
                 continue
             if self.players[0].bust:
-                player.money += player.bet*1.5
+                player.money += player.bet*2
                 continue
             if player.score < self.players[0].score:
                 continue
@@ -130,7 +130,7 @@ class Game:
                 player.money += player.bet
                 continue
             if player.score > self.players[0].score:
-                player.money += player.bet*1.5
+                player.money += player.bet*2
                 continue
             
     def reset(self):
