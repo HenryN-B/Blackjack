@@ -1,6 +1,7 @@
 const delay = ms => new Promise(res => setTimeout(res, ms));
 let isNavigatingAway = false;
 let hit_cool_down = true;
+console.log("Updated!")
 
 function changeHitButton(str) {
     const container = document.getElementById("actions-top");
@@ -136,7 +137,7 @@ async function last_dealer_cards(cards) {
     let aces = 0;
     //console.log("new dealers cards", cards)
     var score = game_data.dealer_score
-    if(cards[0][1] == "A" ^ cards[1][1] =="A") {
+    if(cards[0][0] == "A" ^ cards[1][0] =="A") {
         aces+=1;
     } else if(cards[0][1] == "A" && cards[1][1] == "A") {
         aces+=1;
