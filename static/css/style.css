@@ -15,6 +15,16 @@ body {
     background-color: #4c3f42;
 }
 
+.version {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    font-size: 16px; /* Adjust size as needed */
+    color: #999;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: adds background for better visibility */
+    padding: 5px 10px; /* Optional: adds some spacing around the text */
+}
+
 .play-background {
     width: 100%;
     height: 100vh;
