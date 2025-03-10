@@ -137,14 +137,7 @@ async function last_dealer_cards(cards) {
     let aces = 0;
     //console.log("new dealers cards", cards)
     var score = game_data.dealer_score
-    if(cards[0][0] == "A" ^ cards[1][0] =="A") {
-        aces+=1;
-    } else if(cards[0][1] == "A" && cards[1][1] == "A") {
-        aces+=1;
-    }
-
     //console.log("dealer score in last_dealer_cards:" + score)
-
     var first_card = document.getElementsByClassName("card")[0]
     var card = game_data.dealerCards[0]
     var temp = `card${card[1]}${card[0]}.png`
@@ -172,6 +165,11 @@ async function last_dealer_cards(cards) {
         updateScore(score,"dealer")
     }
     if (cards != "null") {
+        if(cards[0][0] == "A" ^ cards[1][0] =="A") {
+            aces+=1;
+        } else if(cards[0][1] == "A" && cards[1][1] == "A") {
+            aces+=1;
+        }
         for (let i = 2; i < cards.length; i++) {
             //console.log(cards[i]);
             setTimeout(() => flip(cards[i]), 500*(i-1));
@@ -207,9 +205,7 @@ document.getElementById('hit-button').addEventListener('click', async function(e
                 changeHitButton("busted!");
                 addCard(data.card);
                 updateScore(data.score,"player")
-                const response = await fetch('stay');
-                const bust_data = await response.json();
-                last_dealer_cards(bust_data);
+                last_dealer_cards(data.dealCards);
             } else {
                 //console.log('Hit response:', data.card);
                 //console.log
