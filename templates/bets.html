@@ -1,20 +1,55 @@
 {% extends 'base.html' %} 
 {% block content %}
-<div class="bet-container">
-    <h1 class="bet-title">Place Your Bet</h1>
-    <p class="current-money">Current Money: {{money}}</p>
 
-    <form action="/bets" method="POST" class="bet-form">
-        <input type="text" placeholder="Enter your bet (numbers only)" id="bet" name="bet" class="bet-input">
-        <small class="bet-error" id="bet-error"></small>
-        <button type="submit" class="bet-button" id = "bet-button">
-            Place Bet
-        </button>
-    </form>
+<div class = "betting-background">
+    <div class="betting-page" id="betting-page"
+        {% if argentina %}
+        style="background-image: url('/static/images/argentina.jpg'); background-size: cover; background-position: center;"
+        {% endif %}>
+        <audio id="chip-sound" src="static/audio/chip.mp3"></audio>
+        <audio id="reset-sound" src="static/audio/handfull-of-poker-chips-95810.mp3"></audio>
+
+    <div class="money-info">
+        <p class="money-total">Money: $<span id="total-money">{{money}}</span></p>
+        <p class="bet-total">Bet: $<span id="total-bet">0</span></p>
+    </div>
+
+    <div class="chip-container">
+
+        {% for value, img in [(1, 'chip_0.png'),
+                            (5, 'chip_1.png'),
+                            (10, 'chip_2.png'),
+                            (25, 'chip_3.png'),
+                            (50, 'chip_4.png'),
+                            (100, 'chip_5.png'),] %}
+        <div class="chip" id="{{ value }}">
+            <img src="static/images/{{ img }}" alt="{{ value }}_chip" class="chip-img">
+            <span class="chip-value">${{ value }}</span>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="bet-actions">
+        <button id="undo-button" class="bet-btn">Undo</button>
+        <button id="reset-button" class="bet-btn">Reset</button>
+        <button id="start-game" class="start-btn">Start Game</button>
+    </div>
+
+        <div class = "argentina">
+            <button type = "submit" id = "argentina" class = "argentina-button">
+                argentina mode
+            </button>
+        </div>
+    </div>
 </div>
+
+
 
 <script>
     const in_game = {{ in_game | tojson | safe }}; 
+    const argentina = {{ argentina | tojson | safe }};
+    const startMoney = {{ money| tojson | safe }};
 </script>
 
 <script src="{{ url_for('static', filename='js/bets_scripts.js') }}"></script>

@@ -1,14 +1,13 @@
 {% extends 'base.html' %} 
 {% block content %}
-<h1>Blackjack Game</h1>
-<p>Enter name to start game</p>
-<div>
+<div class="home-page">
+    <div class="home-overlay">
+        <h1 class="home-title">Blackjack</h1>
+        <p class="home-subtitle">Enter name to start game</p>
+        <form action="/add_player" method="POST" id="add-player-form" class="home-form">
+            <input class="home-input" type="text" placeholder="Name" name="name" required>
+            <button class="home-button" type="submit">Start Game</button>
+        </form>
     </div>
-    <form action="/add_player" method="POST" id="add-player-form">
-        <input class="button" type="text" placeholder="Name" name="name">
-        <button type="submit">start game</button>
-    </form>
 </div>
-
-
 {% endblock %}
