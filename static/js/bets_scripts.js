@@ -1,7 +1,7 @@
 let isNavigatingAway = false;
 let betHistory = [];
 let totalBet = 0;
-let totalMoney = 0;
+let totalMoney = startMoney;
 const chipSound = document.getElementById("chip-sound");
 
 if (argentina) {
@@ -60,7 +60,8 @@ document.querySelectorAll('.chip').forEach(chip => {
 
             if (status === 1) {
                 console.log("Bet accepted! Current bet total:", tempBet);
-                totalMoney = money;
+                totalMoney = totalMoney-chipValue;
+                console.log(totalMoney)
                 addBet(chipValue);
                 updateDisplay();
                 chipSound.currentTime = 0;
@@ -89,13 +90,14 @@ document.getElementById("undo-button").addEventListener("click", () => {
         .then(data => {
             const money = data.money
             totalBet -= last_bet;
-            totalMoney = money;
+            totalMoney = totalMoney-last_bet;
             updateDisplay();
         })
     }
 });
 
 document.getElementById("reset-button").addEventListener("click", () => {
+    console.log("here");
         fetch("/reset_bet", {
             method: "POST",
             headers: {
@@ -105,7 +107,9 @@ document.getElementById("reset-button").addEventListener("click", () => {
         }).then(response => response.json())
         .then(data => {
         const money = data.money
-        totalMoney = totalBet;
+        console.log(totalMoney);
+        console.log(totalBet);
+        totalMoney = totalMoney + totalBet;
         totalBet = 0;
         betHistory = [];
         updateDisplay();

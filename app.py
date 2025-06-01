@@ -9,18 +9,16 @@ app.secret_key = "test"
 #game = Game()
 names = {}
 
+@app.route("/", methods=["GET"])
+def index():  
+    return render_template("index.html")
+
 @app.after_request
 def add_header(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
-
-
-@app.route("/", methods=["GET"])
-def index():  
-    return render_template("index.html")
-
 
 @app.route("/play", methods=["GET"])
 def play():
@@ -208,15 +206,6 @@ def player_and_dealer_data():
         "dealerBlackjack": names[name].players[0].blackjack,
     }
     return jsonify(data)
-
-# @app.route("/disconnect", methods=["POST"])
-# def disconnect():
-#     if "name" in session:
-#         name = session.get("name")
-#         if name in names:
-#             del names[name]  
-#         session.pop("name", None) 
-#     return "", 204
 
 @app.route("/argentina")
 def argentina():
