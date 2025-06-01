@@ -1,3 +1,0 @@
-henrynortonbower.com {
-    reverse_proxy localhost:8000
-}
