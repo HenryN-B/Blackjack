@@ -4,3 +4,4 @@ cloudflared.log
 nohup.out
 udo ss -tlnp | grep :2019
 venv
+cloudflared.deb
