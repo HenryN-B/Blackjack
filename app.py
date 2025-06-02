@@ -37,6 +37,7 @@ def play():
     player_score = names[name].players[1].score
     dealer_score = names[name].players[0].score
     new_player_card = names[name].players[1].hand[len(names[name].players[1].hand)-1]
+    reshuffle = names[name].reshuffle
     game_data = {
         "playerCards": player_cards,
         "dealerCards": dealer_cards,
@@ -47,7 +48,8 @@ def play():
         "dealer_blackjack": dealer_blackjack,
         "player_blackjack": player_blackjack,
         "player_score": player_score,
-        "dealer_score": dealer_score
+        "dealer_score": dealer_score,
+        "reshuffle": reshuffle
     }
     return render_template("play.html", data = game_data, player = names[name].players[1])
 
@@ -144,7 +146,6 @@ def start_game():
     if bet <= 0:
         return {"status": "error", "message": "Invalid bet"}
 
-    names[name].reset()
     names[name].start_game([bet])
     return {"status": "ok"}
     
@@ -224,4 +225,4 @@ def argentina():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000,debug=True)
+    app.run(host="0.0.0.0", port=5000)

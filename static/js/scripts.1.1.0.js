@@ -3,6 +3,22 @@ let isNavigatingAway = false;
 let hit_cool_down = true;
 console.log("Updated 0.0.3")
 
+function playRandomDealSound() {
+    const dealSounds = [
+        document.getElementById("deal-1"),
+        document.getElementById("deal-2"),
+        document.getElementById("deal-3"),
+        document.getElementById("deal-4"),
+        document.getElementById("deal-5")
+    ];
+
+    const randomIndex = Math.floor(Math.random() * dealSounds.length);
+    const sound = dealSounds[randomIndex];
+    
+    sound.currentTime = 0; // Restart from beginning if already playing
+    sound.play();
+}
+
 function changeHitButton(label = "Restart") {
   const container = document.getElementById("actions-box");
   container.innerHTML = "";
@@ -83,13 +99,14 @@ async function handleGameData() {
         dealCards(game_data.dealerCards, "dealer-hand");
         let cards = document.getElementsByClassName("card");
         function revealCard(index) {
-            cards[index].classList.remove("hidden-card")
+            cards[index].classList.remove("hidden-card");
+            playRandomDealSound();
         }
-        revealCard(2);
-        setTimeout(() => revealCard(0), 500); 
-        setTimeout(() => revealCard(3), 1000); 
-        setTimeout(() => revealCard(1), 1500);
-        await delay(2000);
+        setTimeout(() => revealCard(2), 900);
+        setTimeout(() => revealCard(0), 1400); 
+        setTimeout(() => revealCard(3), 1900); 
+        setTimeout(() => revealCard(1), 2400);
+        await delay(2400);
         hit_cool_down = false;
         updateScore(game_data.player_score,"player")
         if(game_data.dealer_blackjack) {
@@ -119,7 +136,7 @@ async function handleGameData() {
                 card_container.classList.add("card-container");
                 const img = document.createElement("img");
                 const isFaceDown = (whoHand === "dealer-hand" && index === 0 && !game_data.stay);
-                const cardString = isFaceDown ? "card_back.png" : `card${card[1]}${card[0]}.png`;
+                const cardString = isFaceDown ? "card_back.1.1.0.png" : `card${card[1]}${card[0]}.1.1.0.png`;
 
                 img.src = `static/images/${cardString}`;
                 img.alt = "Card image";
@@ -161,7 +178,7 @@ function dealCards(cards, whoHand) {
          card_container.classList.add("card-container");
         //console.log(whoHand, card)
         const img = document.createElement("img");
-        const cardString = (whoHand === "dealer-hand" && index === 0) ? "card_back.png" : `card${card[1]}${card[0]}.png`;
+        const cardString = (whoHand === "dealer-hand" && index === 0) ? "card_back.1.1.0.png" : `card${card[1]}${card[0]}.1.1.0.png`;
         img.src = `static/images/${cardString}`;
         img.alt = "Card image";
         img.classList.add("card");
@@ -179,7 +196,7 @@ async function last_dealer_cards(cards) {
     //console.log("dealer score in last_dealer_cards:" + score)
     var first_card = document.getElementsByClassName("card")[0]
     var card = game_data.dealerCards[0]
-    var temp = `card${card[1]}${card[0]}.png`
+    var temp = `card${card[1]}${card[0]}.1.1.0.png`
     first_card.src = `static/images/${temp}` 
     whoHand = "dealer-hand"
     updateScore(score,"dealer")
@@ -190,13 +207,14 @@ async function last_dealer_cards(cards) {
         const card_container = document.createElement("div");
         card_container.classList.add("card-container");
         const img = document.createElement("img");
-        const cardString = `card${card[1]}${card[0]}.png`;
+        const cardString = `card${card[1]}${card[0]}.1.1.0.png`;
         img.src = `static/images/${cardString}`;
         img.alt = "Card image";
         img.classList.add("card");
         card_container.appendChild(img);
         container.appendChild(card_container);
-        score += calculateScore(card)
+        score += calculateScore(card);
+        playRandomDealSound();
         //console.log("Updated dealer score:" + score)
         if(card[0] == "A") {
             aces +=1;
@@ -226,7 +244,7 @@ async function last_dealer_cards(cards) {
 async function addCard(card, whoHand) {
     try {
         //console.log("adding card", card)
-        const cardString = `card${card[1]}${card[0]}.png`;
+        const cardString = `card${card[1]}${card[0]}.1.1.0.png`;
         const img = document.createElement("img");
         img.src = `static/images/${cardString}`;
         img.alt = "New card image";
@@ -238,6 +256,7 @@ async function addCard(card, whoHand) {
 
         card_container.appendChild(img);
         playerHandContainer.appendChild(card_container);
+        playRandomDealSound();
 
     } catch (error) {
         //console.error("Error adding new card:", error);
@@ -340,3 +359,8 @@ function showOutcome(message, duration = 5000) {
 }
 
 handleGameData();
+const sound = document.getElementById("shuffle-1");
+sound.play();
+if(game_data.reshuffle == true) {
+    showOutcome("reshuffle", 1000)
+}

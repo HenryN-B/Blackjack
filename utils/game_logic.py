@@ -22,6 +22,7 @@ class Game:
         self.reset()
         self.deal = False
         self.argentina = False
+        self.reshuffle = True
         
         
     def add_player(self,name = "Temp"):
@@ -135,14 +136,21 @@ class Game:
                 continue
             
     def reset(self):
-        self.in_game = False;
-        self.deck = []
-        suits = ("Hearts", "Diamonds", "Clubs", "Spades")
-        ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
-        for suit in suits:
-            for rank in ranks:
-                self.deck.append((rank, suit))
-        random.shuffle(self.deck)
+        print("resetting")
+        self.in_game = False
+        self.reshuffle = False
+        if len(self.deck) < 105:
+            self.deck = []
+            self.reshuffle = True
+            suits = ("Hearts", "Diamonds", "Clubs", "Spades")
+            ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
+
+            for _ in range(8):  # 8 decks
+                for suit in suits:
+                    for rank in ranks:
+                        self.deck.append((rank, suit))
+            random.shuffle(self.deck)
+    
         for player in self.players:
             player.score = 0
             player.hand = []

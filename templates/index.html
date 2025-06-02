@@ -1,16 +1,41 @@
 {% extends 'base.html' %} 
 {% block content %}
+<div class="options" id="settings-icon">
+    <img src="/static/images/settings_1.1.0.png" alt="Settings" width="40">
+</div>
+
+<div class="settings-panel" id="settings-panel">
+    <h3>Settings</h3>
+    <label><input type="checkbox" id="sound-toggle"> Sound on</label>
+    <br>
+    <label><input type="checkbox" id="music-toggle"> Music on</label>
+    <br>
+    <button id="close-settings">Close</button>
+</div>
+
 <div class="home-page">
     <div class="home-overlay">
         <h1 class="home-title">Blackjack</h1>
         <p class="home-subtitle">Enter name to start game</p>
-        <form action="/add_player" method="POST" id="add-player-form" class="home-form">
+        <form action="/add_player" method="POST" id="add-player-form" class="home-form" autocomplete="off">
             <input class="home-input" type="text" placeholder="Name" name="name" required>
             <button class="home-button" type="submit">Start Game</button>
         </form>
     </div>
 </div>
 <div class = "version">
-    1.0.1
+    1.1.0
 </div>
+
+<script>
+  document.getElementById("settings-icon").addEventListener("click", function () {
+    const panel = document.getElementById("settings-panel");
+    panel.style.display = (panel.style.display === "block") ? "none" : "block";
+  });
+
+  document.getElementById("close-settings").addEventListener("click", function () {
+    document.getElementById("settings-panel").style.display = "none";
+  });
+</script>
+
 {% endblock %}

@@ -90,7 +90,7 @@ document.getElementById("undo-button").addEventListener("click", () => {
         .then(data => {
             const money = data.money
             totalBet -= last_bet;
-            totalMoney = totalMoney-last_bet;
+            totalMoney = totalMoney+last_bet;
             updateDisplay();
         })
     }
