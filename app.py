@@ -58,7 +58,7 @@ def play():
 @app.route("/add_player", methods=["POST"])
 def add_player():
     game = Game()
-    name = request.form["name"].strip()
+    name = request.form["playerName"].strip()
     if name == "" or name == "Null":
         return redirect("/")
     game.add_player(name)
