@@ -1,24 +1,30 @@
 from flask import Flask, request, jsonify, render_template, redirect, session
 from utils.game_logic import Game, Player
 from utils.converter import get_currency
+from dotenv import load_dotenv
 import sqlite3
+import os
 
+
+load_dotenv()
 app = Flask(__name__)
-app.secret_key = "test"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 #game = Game()
 names = {}
 
 @app.route("/", methods=["GET"])
 def index():  
+    test = os.getenv("SECRET_KEY")
+    print(test)
     return render_template("index.html")
 
-@app.after_request
-def add_header(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
+# @app.after_request
+# def add_header(response):
+#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     response.headers["Pragma"] = "no-cache"
+#     response.headers["Expires"] = "0"
+#     return response
 
 @app.route("/play", methods=["GET"])
 def play():
