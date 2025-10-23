@@ -1,8 +1,4 @@
 __pycache__
-Caddyfile
-cloudflared.log
-nohup.out
-udo ss -tlnp | grep :2019
-venv
-cloudflared.deb
+/my_venv
 .env
+DS_Store
