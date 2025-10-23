@@ -13,18 +13,18 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 #game = Game()
 names = {}
 
+# @app.after_request
+# def add_3ader(response):
+#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     response.headers["Pragma"] = "no-cache"
+#     response.headers["Expires"] = "0"
+#     return response
+
 @app.route("/", methods=["GET"])
 def index():  
     test = os.getenv("SECRET_KEY")
     print(test)
     return render_template("index.html")
-
-# @app.after_request
-# def add_header(response):
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Pragma"] = "no-cache"
-#     response.headers["Expires"] = "0"
-#     return response
 
 @app.route("/play", methods=["GET"])
 def play():
@@ -96,6 +96,8 @@ def bets():
         bets.append(bet)
         names[name].start_game(bets)
         return redirect("/play")
+    money = names[name].players[1].money
+    print(money)
     return render_template("bets.html",money = names[name].players[1].money, 
                            in_game = names[name].in_game, 
                            argentina = names[name].argentina,
