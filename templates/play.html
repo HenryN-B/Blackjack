@@ -2,12 +2,12 @@
 {% block content %}
 
 <div class = "play-background">
-    <audio src="static/audio/card_deal_1_1.1.0.mp3" id = "deal-1"></audio>
-    <audio src="static/audio/card_deal_2_1.1.0.mp3" id = "deal-2"></audio>
-    <audio src="static/audio/card_deal_3_1.1.0.mp3" id = "deal-3"></audio>
-    <audio src="static/audio/card_deal_4_1.1.0.mp3" id = "deal-4"></audio>
-    <audio src="static/audio/card_deal_5_1.1.0.mp3" id = "deal-5"></audio>
-    <audio src="static/audio/shuffling_cards_1_1.1.0.mp3" id = "shuffle-1"></audio>
+    <audio src="static/audio/card_deal_1_1.2.0.mp3" id = "deal-1"></audio>
+    <audio src="static/audio/card_deal_2_1.2.0.mp3" id = "deal-2"></audio>
+    <audio src="static/audio/card_deal_3_1.2.0.mp3" id = "deal-3"></audio>
+    <audio src="static/audio/card_deal_4_1.2.0.mp3" id = "deal-4"></audio>
+    <audio src="static/audio/card_deal_5_1.2.0.mp3" id = "deal-5"></audio>
+    <audio src="static/audio/shuffling_cards_1_1.2.0.mp3" id = "shuffle-1"></audio>
 
     <div class = "text-stuff">
         <div class="scores-box">
@@ -27,8 +27,8 @@
         </div>
         <div id = "actions-box" class="actions">
                 <div class="hit-stay">
-                    <button id="hit-button"  class="btn hit-btn">Hit</button>
                     <button id="stay-button" class="btn stay-btn">Stay</button>
+                    <button id="hit-button"  class="btn hit-btn">Hit</button>
                 </div>
         </div>
     </div>
@@ -52,5 +52,5 @@
     const game_data = {{ data | tojson | safe }}; 
 </script>
 
-<script src="{{ url_for('static', filename='js/scripts.1.1.0.js') }}"></script>
+<script src="{{ url_for('static', filename='js/scripts.1.2.0.js') }}"></script>
 {% endblock %}

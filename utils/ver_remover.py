@@ -3,7 +3,7 @@ import re
 
 base_path = "/Users/henrynorton-bower/Documents/Programing/Blackjack/static/images"
 version = "1.1.0"
-extensions = [".css", ".js", ".png", ".jpeg"]
+extensions = [".css", ".js", ".png", ".jpeg",".mp3"]
 
 # Match .v2 repeated before the file extension, e.g., .v2.v2.v2.png
 pattern = re.compile(rf"(\.{version})+(\.\w+)$")

@@ -36,6 +36,7 @@ class Game:
                 continue
             bet = bets[i-1]
             player.bet = bet
+            player.money = player.money - bet 
     
     def deal_one(self,player):
         player.hand.append(self.deck.pop())
@@ -124,7 +125,7 @@ class Game:
             if player.bust:
                 continue
             if self.players[0].bust:
-                player.money += player.bet*2
+                player.money += player.bet*1.5
                 continue
             if player.score < self.players[0].score:
                 continue
@@ -132,7 +133,7 @@ class Game:
                 player.money += player.bet
                 continue
             if player.score > self.players[0].score:
-                player.money += player.bet*2
+                player.money += player.bet*1.5
                 continue
             
     def reset(self):
