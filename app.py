@@ -22,8 +22,6 @@ names = {}
 
 @app.route("/", methods=["GET"])
 def index():  
-    test = os.getenv("SECRET_KEY")
-    print(test)
     return render_template("index.html")
 
 @app.route("/play", methods=["GET"])
@@ -65,6 +63,7 @@ def play():
 def add_player():
     game = Game()
     name = request.form["playerName"].strip()
+
     if name == "" or name == "Null":
         return redirect("/")
     game.add_player(name)
@@ -82,69 +81,14 @@ def bets():
         return redirect("/")
     if len(names[name].players) == 1:
         return redirect("/")
-    if request.method == "POST":
-        bets = []
-        bet = request.form["bet"].strip()
-        try:
-            bet = float(bet)
-        except:
-            return redirect("/bets")
-        if bet == "":
-            return redirect("/bets")
-        if bet > names[name].players[1].money or bet <= 0:
-            return redirect("/bets")
-        bets.append(bet)
-        names[name].start_game(bets)
-        return redirect("/play")
-    money = names[name].players[1].money
-    print(money)
     return render_template("bets.html",money = names[name].players[1].money, 
                            in_game = names[name].in_game, 
-                           argentina = names[name].argentina,
-                           temp_bet = names[name].players[1].temp_bet)
+                           argentina = names[name].argentina)
     
-@app.route("/add_bet", methods = ["GET","POST"])
-def add_bet():
-    name = session.get("name")
-    money = names[name].players[1].money
-    data = request.get_json()
-    chip_value = data["chipValue"]
-    
-    if money-chip_value >= 0:
-        names[name].players[1].money = money-chip_value
-        status = 1
-        names[name].players[1].temp_bet = names[name].players[1].temp_bet+chip_value
-    else:
-        status = 2
-    return {"status": status, "temp_bet": names[name].players[1].temp_bet, "money": names[name].players[1].money}
-
-@app.route("/undo_bet", methods = ["GET","POST"])
-def undo_bet():
-    name = session.get("name")
-    money = names[name].players[1].money
-    data = request.get_json()
-    last_bet = data["last_bet"]
-    names[name].players[1].money = money + last_bet
-    names[name].players[1].temp_bet = names[name].players[1].temp_bet - last_bet
-    print(f"temp bet {names[name].players[1].temp_bet}, total money { names[name].players[1].money}")
-    return {"status" : "done", "money": names[name].players[1].money}
-    
-    
-@app.route("/reset_bet", methods = ["GET","POST"])
-def reset_bet():
-    name = session.get("name")
-    money = names[name].players[1].money
-    temp_bet = names[name].players[1].temp_bet
-    names[name].players[1].money = money + temp_bet
-    names[name].players[1].temp_bet = 0
-    print(f"temp bet {names[name].players[1].temp_bet}, total money { names[name].players[1].money}")
-    return {"status" : "done", "money": names[name].players[1].money}
-
-
-
 @app.route("/start_game", methods=["POST"])
 def start_game():
     name = session.get("name")
+    money = names[name].players[1].money
     if name is None:
         return {"status": "error", "message": "No session"}
 
@@ -152,12 +96,11 @@ def start_game():
     bet = float(data.get("bet", 0))
 
     if bet <= 0:
-        return {"status": "error", "message": "Invalid bet"}
-
+        return {"status": "error", "message": "Invalid bet: Bet must be bigger then 0"}
+    if bet > money:
+        return {"status": "error", "message": "Invalid bet: Bet too large", "Money": money}
     names[name].start_game([bet])
     return {"status": "ok"}
-    
-    
     
 @app.route("/hit")
 def hit():

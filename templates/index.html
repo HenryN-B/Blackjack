@@ -1,14 +1,14 @@
 {% extends 'base.html' %} 
 {% block content %}
-<div class="options" id="settings-icon">
-    <img src="/static/images/settings_1.1.0.png" alt="Settings" width="40">
+<div class="options" id="settings-icon" style="display: none;">
+    <img src="{{url_for('static', filename='images/settings.1.2.0.png')}}" alt="Settings" width="40">
 </div>
 
 <div class="settings-panel" id="settings-panel">
     <h3>Settings</h3>
-    <label><input type="checkbox" id="sound-toggle"> Sound on</label>
+    <label><input type="checkbox" id="sound-toggle" checked> Sound on</label>
     <br>
-    <label><input type="checkbox" id="music-toggle"> Music on</label>
+    <label style="display: none;"><input type="checkbox" id="music-toggle"> Music on</label>
     <br>
     <button id="close-settings">Close</button>
 </div>
@@ -26,7 +26,7 @@
     </div>
 </div>
 <div class = "version">
-    1.1.0
+    1.2.0
 </div>
 
 <script>
