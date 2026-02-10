@@ -1,4 +1,4 @@
 # Blackjack Flask app
 
-Playable on [My website](Henrynortonbower.com)
+Playable on [My website](https://henrynortonbower.com)
  
