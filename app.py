@@ -4,6 +4,15 @@ from utils.converter import get_currency
 from dotenv import load_dotenv
 import sqlite3
 import os
+import random
+from string import ascii_uppercase
+
+
+def generate_unique_name(length=10):
+    while True:
+        name = "".join(random.choice(ascii_uppercase) for _ in range(length))
+        if name not in names:
+            return name
 
 
 load_dotenv()
@@ -62,7 +71,7 @@ def play():
 @app.route("/add_player", methods=["POST"])
 def add_player():
     game = Game()
-    name = request.form["playerName"].strip()
+    name = generate_unique_name()
 
     if name == "" or name == "Null":
         return redirect("/")
